@@ -12,7 +12,7 @@
       state: "{{ state }}"
       region: "{{ aws_region }}"
       #disable_rollback: true
-      template:_url "https://openshift-ogbacft.s3.amazonaws.com/OpenShiftCFT.yaml"
+      template_url: "https://openshift-ogbacft.s3.amazonaws.com/OpenShiftCFT.yaml"
       template_parameters:
         OpenshiftContainerPlatformVersion: "{{ OpenshiftContainerPlatformVersion }}"
         Environment: "{{ Environment }}"
@@ -55,7 +55,7 @@
       state: "{{ state }}"
       region: "{{ aws_region }}"
       #disable_rollback: true
-      template: "https://openshift-ogbacft.s3.amazonaws.com/OpenShiftCFT.yaml"
+      template_url: "https://openshift-ogbacft.s3.amazonaws.com/OpenShiftCFT.yaml"
       template_parameters:
         OpenshiftContainerPlatformVersion: "{{ OpenshiftContainerPlatformVersion }}"
         Environment: "{{ Environment }}"
