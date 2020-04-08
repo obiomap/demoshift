@@ -17,7 +17,7 @@
         OpenshiftContainerPlatformVersion: "{{ OpenshiftContainerPlatformVersion }}"
        # Environment: "{{ Environment }}"
         #aws_region: "{{ aws_region }}"
-        stack_name: "{{ stack_name }}"
+       # stack_name: "{{ stack_name }}"
         #state: "{{ state }}"
         AvailabilityZones:
         - "{{ AZ_1 }}"
@@ -60,7 +60,7 @@
         OpenshiftContainerPlatformVersion: "{{ OpenshiftContainerPlatformVersion }}"
         #Environment: "{{ Environment }}"
        # aws_region: "{{ aws_region }}"
-        stack_name: "{{ stack_name }}"
+        #stack_name: "{{ stack_name }}"
        # state: "{{ state }}"
         AvailabilityZones:
         - "{{ AZ_1 }}"
