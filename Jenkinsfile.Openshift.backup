@@ -57,7 +57,7 @@ pipeline {
                         ansible-playbook $WORKSPACE/OpenShiftdelpoy.yaml 
                              --extra-vars='{\
                                  "ansible_python_interpreter": "/usr/bin/python",\
-                                  "state": "$params.{state}",\
+                                  "state": "${params.state}",\
                                   "AZ_1": "${params.AZ_1}",\
                                   "AZ_2": "${params.AZ_2}",\
                                   "AZ_3": "${params.AZ_3}",\
