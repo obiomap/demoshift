@@ -15,10 +15,10 @@
       template_url: "https://openshift-ogbacft.s3.amazonaws.com/OpenShiftCFT.yaml"
       template_parameters:
         OpenshiftContainerPlatformVersion: "{{ OpenshiftContainerPlatformVersion }}"
-        Environment: "{{ Environment }}"
-        aws_region: "{{ aws_region }}"
+       # Environment: "{{ Environment }}"
+        #aws_region: "{{ aws_region }}"
         stack_name: "{{ stack_name }}"
-        state: "{{ state }}"
+        #state: "{{ state }}"
         AvailabilityZones:
         - "{{ AZ_1 }}"
         - "{{ AZ_2 }}"
@@ -58,10 +58,10 @@
       template_url: "https://openshift-ogbacft.s3.amazonaws.com/OpenShiftCFT.yaml"
       template_parameters:
         OpenshiftContainerPlatformVersion: "{{ OpenshiftContainerPlatformVersion }}"
-        Environment: "{{ Environment }}"
-        aws_region: "{{ aws_region }}"
+        #Environment: "{{ Environment }}"
+       # aws_region: "{{ aws_region }}"
         stack_name: "{{ stack_name }}"
-        state: "{{ state }}"
+       # state: "{{ state }}"
         AvailabilityZones:
         - "{{ AZ_1 }}"
         - "{{ AZ_2 }}"
