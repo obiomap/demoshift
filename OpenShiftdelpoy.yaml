@@ -1,0 +1,94 @@
+---
+- hosts: localhost
+ # become: true
+  #become_user: root
+  gather_facts: yes
+  connection: local
+
+  tasks:
+  - name: "deploying test CFT to {{ Environment }} environment"
+    cloudformation:
+      stack_name: "{{ stack_name }}"
+      state: "{{ state }}"
+      region: "{{ aws_region }}"
+      #disable_rollback: true
+      template:_url "https://openshift-ogbacft.s3.amazonaws.com/OpenShiftCFT.yaml"
+      template_parameters:
+        OpenshiftContainerPlatformVersion: "{{ OpenshiftContainerPlatformVersion }}"
+        Environment: "{{ Environment }}"
+        #aws_region: "{{ aws_region }}"
+        #stack_name: "{{ stack_name }}"
+        #state: "{{ stage }}"
+        AvailabilityZones:
+        - "{{ AZ_1 }}"
+        - "{{ AZ_2 }}"
+        - "{{ AZ_3 }}"
+        VPCCIDR: "{{ VPCCIDR }}" 
+        PrivateSubnet1CIDR: "{{ PrivateSubnet1CIDR }}"
+        PrivateSubnet2CIDR: "{{ PrivateSubnet2CIDR }}"
+        PrivateSubnet3CIDR: "{{ PrivateSubnet3CIDR }}"
+        PublicSubnet1CIDR: "{{ PublicSubnet1CIDR }}"
+        PublicSubnet2CIDR: "{{ PublicSubnet2CIDR }}"
+        PublicSubnet3CIDR: "{{ PublicSubnet3CIDR }}"
+        RemoteAccessCIDR: "{{ RemoteAccessCIDR }}"
+        ContainerAccessCIDR: "{{ ContainerAccessCIDR }}"
+        DomainName: "{{ DomainName }}"
+        HostedZoneID: "{{ HostedZoneID }}"
+        SubDomainPrefix: "{{ HostedZoneID }}"
+        KeyPairName: "{{ KeyPairName }}"
+        AmiId: "{{ AmiId }}"
+        NumberOfMaster: "{{ NumberOfMaster }}"
+        NumberOfEtcd: "{{ NumberOfEtcd }}"
+        NumberOfNodes: "{{ NumberOfNodes }}"
+        MasterInstanceType: "{{ MasterInstanceType }}"
+        EtcdInstanceType: "{{ EtcdInstanceType }}"
+        NodesInstanceType: "{{ NodesInstanceType }}"
+        OpenShiftAdminPassword: "{{ OpenShiftAdminPassword }}"
+        RedhatSubscriptionUserName: "{{ RedhatSubscriptionUserName }}"
+        RedhatSubscriptionPassword: "{{ RedhatSubscriptionPassword }}"
+        RedhatSubscriptionPoolID: "{{ RedhatSubscriptionPoolID }}"
+    when: state == "present"
+
+  - name: "deleting test CFT stack in {{ Environment }} environment"
+    cloudformation:
+      stack_name: "{{ stack_name }}"
+      state: "{{ state }}"
+      region: "{{ aws_region }}"
+      #disable_rollback: true
+      template: "https://openshift-ogbacft.s3.amazonaws.com/OpenShiftCFT.yaml"
+      template_parameters:
+        OpenshiftContainerPlatformVersion: "{{ OpenshiftContainerPlatformVersion }}"
+        Environment: "{{ Environment }}"
+        #aws_region: "{{ aws_region }}"
+        #stack_name: "{{ stack_name }}"
+        #state: "{{ stage }}"
+        AvailabilityZones:
+        - "{{ AZ_1 }}"
+        - "{{ AZ_2 }}"
+        - "{{ AZ_3 }}"
+        VPCCIDR: "{{ VPCCIDR }}"
+        PrivateSubnet1CIDR: "{{ PrivateSubnet1CIDR }}"
+        PrivateSubnet2CIDR: "{{ PrivateSubnet2CIDR }}"
+        PrivateSubnet3CIDR: "{{ PrivateSubnet3CIDR }}"
+        PublicSubnet1CIDR: "{{ PublicSubnet1CIDR }}"
+        PublicSubnet2CIDR: "{{ PublicSubnet2CIDR }}"
+        PublicSubnet3CIDR: "{{ PublicSubnet3CIDR }}"
+        RemoteAccessCIDR: "{{ RemoteAccessCIDR }}"
+        ContainerAccessCIDR: "{{ ContainerAccessCIDR }}"
+        DomainName: "{{ DomainName }}"
+        HostedZoneID: "{{ HostedZoneID }}"
+        SubDomainPrefix: "{{ HostedZoneID }}"
+        KeyPairName: "{{ KeyPairName }}"
+        AmiId: "{{ AmiId }}"
+        NumberOfMaster: "{{ NumberOfMaster }}"
+        NumberOfEtcd: "{{ NumberOfEtcd }}"
+        NumberOfNodes: "{{ NumberOfNodes }}"
+        MasterInstanceType: "{{ MasterInstanceType }}"
+        EtcdInstanceType: "{{ EtcdInstanceType }}"
+        NodesInstanceType: "{{ NodesInstanceType }}"
+        OpenShiftAdminPassword: "{{ OpenShiftAdminPassword }}"
+        RedhatSubscriptionUserName: "{{ RedhatSubscriptionUserName }}"
+        RedhatSubscriptionPassword: "{{ RedhatSubscriptionPassword }}"
+        RedhatSubscriptionPoolID: "{{ RedhatSubscriptionPoolID }}"
+    when: state  == "absent"
+
