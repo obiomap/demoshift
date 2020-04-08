@@ -54,14 +54,41 @@ pipeline {
                         sh """
                         aws s3 mb s3://openshift-ogbacft --region us-east-1
                         aws s3 cp $WORKSPACE/OpenShiftCFT.yaml s3://openshift-ogbacft
-                        ansible-playbook $WORKSPACE/OpenShiftdelpoy.yaml --extra-vars "ansible_python_interpreter=/usr/bin/python OpenshiftContainerPlatformVersion=${OpenshiftContainerPlatformVersion} Environment=${Environment}aws_region=${aws_region} stack_name=${stack_name} state=${state} AZ_1=${AZ_1} AZ_2=${AZ_2} AZ_3=${AZ_3}     
-                                        VPCCIDR=${VPCCIDR} PrivateSubnet1CIDR=${PrivateSubnet1CIDR} PrivateSubnet2CIDR=${PrivateSubnet2CIDR} 
-                                        PrivateSubnet3CIDR=${PrivateSubnet3CIDR} PublicSubnet1CIDR=${PublicSubnet1CIDR} PublicSubnet2CIDR=${PublicSubnet2CIDR}
-                                        PublicSubnet3CIDR=${PublicSubnet3CIDR} RemoteAccessCIDR=${RemoteAccessCIDR} ContainerAccessCIDR=${ContainerAccessCIDR}
-                                        DomainName=${DomainName} HostedZoneID=${HostedZoneID} SubDomainPrefix=${SubDomainPrefix} KeyPairName=${KeyPairName}
-                                        AmiId=${AmiId} NumberOfMaster=${NumberOfMaster} NumberOfEtcd=${NumberOfEtcd} NumberOfNodes=${NumberOfNodes} MasterInstanceType=${MasterInstanceType}
-                                        EtcdInstanceType=${EtcdInstanceType} NodesInstanceType=${NodesInstanceType} OpenShiftAdminPassword=${OpenShiftAdminPassword}
-                                        RedhatSubscriptionUserName=${RedhatSubscriptionUserName} RedhatSubscriptionPassword=${RedhatSubscriptionPassword} RedhatSubscriptionPoolID=${RedhatSubscriptionPoolID}"
+                        ansible-playbook $WORKSPACE/OpenShiftdelpoy.yaml 
+                             --extra-vars='{\
+                                 "ansible_python_interpreter": "/usr/bin/python",\
+                                  "state": "$params.{state}",\
+                                  "AZ_1": "${params.AZ_1}",\
+                                  "AZ_2": "${params.AZ_2}",\
+                                  "AZ_3": "${params.AZ_3}",\
+                                  "AmiId": "${params.AmiId}",\
+                                  "VPCCIDR": "${params.VPCCIDR}",\
+                                  "aws_region": "${params.aws_region}",\
+                                  "stack_name": "${params.stack_name}",\
+                                  "DomainName": "${params.DomainName}",\
+                                  "HostedZoneID": "${params.HostedZoneID}",\
+                                  "SubDomainPrefix": "${params.SubDomainPrefix}",\
+                                  "KeyPairName": "${params.KeyPairName}",\
+                                  "Environment": "${params.Environment}",\
+                                  "NumberOfMaster": "${params.NumberOfMaster}",\
+                                  "NumberOfEtcd": "${params.NumberOfEtcd}",\
+                                  "NumberOfNodes": "${params.NumberOfNodes}",\
+                                  "PrivateSubnet1CIDR": "${params.PrivateSubnet1CIDR}",\
+                                  "PrivateSubnet2CIDR": "${params.PrivateSubnet2CIDR}",\
+                                  "PrivateSubnet3CIDR": "${params.PrivateSubnet3CIDR}",\
+                                  "PublicSubnet1CIDR": "${params.PublicSubnet1CIDR}",\
+                                  "PublicSubnet2CIDR": "${params.PublicSubnet2CIDR}",\
+                                  "PublicSubnet3CIDR": "${params.PublicSubnet3CIDR}",\
+                                  "RemoteAccessCIDR": "${params.RemoteAccessCIDR}",\
+                                  "ContainerAccessCIDR": "${params.ContainerAccessCIDR}",\
+                                  "MasterInstanceType": "${params.MasterInstanceType}",\
+                                  "EtcdInstanceType": "${params.EtcdInstanceType}",\
+                                  "NodesInstanceType": "${params.NodesInstanceType}",\
+                                  "OpenShiftAdminPassword": "${params.OpenShiftAdminPassword}",\
+                                  "RedhatSubscriptionPoolID": "${params.RedhatSubscriptionPoolID}",\
+                                  "RedhatSubscriptionUserName": "${params.RedhatSubscriptionUserName}",\
+                                  "RedhatSubscriptionPassword": "${params.RedhatSubscriptionPassword}",\
+                                  "OpenshiftContainerPlatformVersion": "${params.OpenshiftContainerPlatformVersion}"}'
                         aws s3 rm s3://openshift-ogbacft/OpenShiftCFT.yaml
                         aws s3 rb s3://openshift-ogbacft 
                         """
