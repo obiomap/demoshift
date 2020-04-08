@@ -16,9 +16,9 @@
       template_parameters:
         OpenshiftContainerPlatformVersion: "{{ OpenshiftContainerPlatformVersion }}"
         Environment: "{{ Environment }}"
-        #aws_region: "{{ aws_region }}"
-        #stack_name: "{{ stack_name }}"
-        #state: "{{ stage }}"
+        aws_region: "{{ aws_region }}"
+        stack_name: "{{ stack_name }}"
+        state: "{{ stage }}"
         AvailabilityZones:
         - "{{ AZ_1 }}"
         - "{{ AZ_2 }}"
@@ -59,9 +59,9 @@
       template_parameters:
         OpenshiftContainerPlatformVersion: "{{ OpenshiftContainerPlatformVersion }}"
         Environment: "{{ Environment }}"
-        #aws_region: "{{ aws_region }}"
-        #stack_name: "{{ stack_name }}"
-        #state: "{{ stage }}"
+        aws_region: "{{ aws_region }}"
+        stack_name: "{{ stack_name }}"
+        state: "{{ stage }}"
         AvailabilityZones:
         - "{{ AZ_1 }}"
         - "{{ AZ_2 }}"
