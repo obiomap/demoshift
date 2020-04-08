@@ -156,9 +156,10 @@ Parameters:
     Type: String
     #Default: "ami-0916c408cb02e310b"
   AvailabilityZones:
-    Type: List<AWS::EC2::AvailabilityZone::Name>
-    AllowedValues: ["us-east-1a", "us-east-1b", "us-east-1c"]
-    #Type: List<["us-east-1a", "us-east-1b", "us-east-1c"]>
+    Type: CommaDelimitedList
+    #Type: List<AWS::EC2::AvailabilityZone::Name>
+    #AllowedValues: ["us-east-1a", "us-east-1b", "us-east-1c"]
+    #Type: ["us-east-1a","us-east-1b","us-east-1c"]
     #Type: String
   KeyPairName:
     Type: String
