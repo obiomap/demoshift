@@ -42,8 +42,16 @@ Metadata:
         Parameters:
           - OpenshiftContainerPlatformVersion
           - AWSServiceBroker
+          - HawkularMetrics
           - AnsibleFromGit
           - ClusterName
+          - GlusterFS
+          - GlusterStorageSize
+          - GlusterStorageType
+          - GlusterStorageIops
+          - GlusterStorageEncrypted
+          - GlusterInstanceType
+          - NumberOfGluster
           - AutomationBroker
           - ClusterConsole
       - Label:
@@ -119,6 +127,20 @@ Metadata:
         default: Route 53 Hosted Zone ID
       SubDomainPrefix:
         default: Subdomain Prefix
+      GlusterFS:
+        default: GlusterFS
+      GlusterStorageSize:
+        default: Gluster Storage Size
+      GlusterStorageType:
+        default: Gluster EBS volume type
+      GlusterInstanceType:
+        default: Gluster Instance Type
+      NumberOfGluster:
+        default: Number of Gluster Hosts
+      GlusterStorageIops:
+        default: Gluster Storage Iops
+      GlusterStorageEncrypted:
+        default: Gluster Storage Encrypted
       AutomationBroker:
         default: OpenSift Automation Broker
       AvailabilityZones:
@@ -132,79 +154,116 @@ Metadata:
 Parameters:
   AmiId:
     Type: String
+    #Default: "ami-0916c408cb02e310b"
   AvailabilityZones:
     Type: CommaDelimitedList
+    #Type: List<AWS::EC2::AvailabilityZone::Name>
+    #AllowedValues: ["us-east-1a", "us-east-1b", "us-east-1c"]
+    #Type: ["us-east-1a","us-east-1b","us-east-1c"]
+    #Type: String
   KeyPairName:
     Type: String
+    #Default: "docker"
   PrivateSubnet1CIDR:
+    #Default: 10.192.0.0/19
     Description: CIDR block for private subnet 1 located in Availability Zone 1
     Type: String
   PrivateSubnet2CIDR:
+    #Default: 10.192.32.0/19
     Description: CIDR block for private subnet 2 located in Availability Zone 2
     Type: String
   PrivateSubnet3CIDR:
+    #Default: 10.192.64.0/19
     Description: CIDR block for private subnet 2 located in Availability Zone 3
     Type: String
   PublicSubnet1CIDR:
+    #Default: 10.192.128.0/20
     Description: CIDR block for the public (DMZ) subnet 1 located in Availability
       Zone 1
     Type: String
   PublicSubnet2CIDR:
+    #Default: 10.192.144.0/20
     Description: CIDR block for the public (DMZ) subnet 2 located in Availability
       Zone 2
     Type: String
   PublicSubnet3CIDR:
+    #Default: 10.192.160.0/20
     Description: CIDR block for the public (DMZ) subnet 2 located in Availability
       Zone 3
     Type: String
   QSS3BucketName:
     Default: aws-quickstart
+    Description: S3 bucket name for the Quick Start assets. This string can include
+      numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start
+      or end with a hyphen (-).
     Type: String
   QSS3KeyPrefix:
     Default: quickstart-redhat-openshift/
+    Description: S3 key prefix for the Quick Start assets. Quick Start key prefix
+      can include numbers, lowercase letters, uppercase letters, hyphens (-), and
+      forward slash (/).
     Type: String
   RemoteAccessCIDR:
-    Description: The CIDR IP range that is permitted to access the instances, use trusted IP range.
+    Description: The CIDR IP range that is permitted to access the instances We recommend
+      that you set this value to a trusted IP range.
     Type: String
+    #Default: "73.135.216.94/32" 
   ContainerAccessCIDR:
-    Description: The CIDR IP range that is permitted to access the instances, use trusted IP range.
+    Description: The CIDR IP range that is permitted to access the instances We recommend
+      that you set this value to a trusted IP range.
     Type: String
+    #Default: "73.135.216.94/32" 
   OpenShiftAdminPassword:
+    Description: Password for OpenShift Admin UI Must be at least 8 and no more than
+      12 characters containing letters and (minimum 1 capital letter), numbers and
+      symbols
     Type: String
     MinLength: '8'
+    AllowedPattern: ^[^ \\']+$
     NoEcho: 'true'
   RedhatSubscriptionUserName:
     Description: Enter Redhat RHN User Name
     Type: String
   RedhatSubscriptionPassword:
     NoEcho: 'true'
+    Description: Enter Redhat RHN Password
     Type: String
+    AllowedPattern: ^[^ \\']+$
   RedhatSubscriptionPoolID:
     Description: Enter Redhat RHN PoolID
     Type: String
+    #Default: 8a85f99a707807c30170833f7f5f2066
   OpenshiftContainerPlatformVersion:
     Description: OpenShift version to deploy
+    #Default: '3.11'
     Type: String
     AllowedValues: [ '3.11' ]
   VPCCIDR:
+    #Default: 10.192.0.0/16
     Description: CIDR block for the VPC
     Type: String
   MasterInstanceType:
+    #Default: m5.xlarge
     Description: Type of EC2 instance for the Master instances
     Type: String
   EtcdInstanceType:
+   # Default: m5.xlarge
     Description: Type of EC2 instance for the Etcd instances
     Type: String
   NodesInstanceType:
+    #Default: m5.xlarge
     Description: Type of EC2 instance for the Node instances
     Type: String
   NumberOfMaster:
+    #Default: '1'
     Description: This Deployment requires at least 3 OpenShift Master instances
     Type: String
   NumberOfEtcd:
+    #Default: '1'
     Description: This Deployment requires at least 3 OpenShift Etcd instances
     Type: String
   NumberOfNodes:
+    #Default: '1'
     Description: The desired capacity for the OpenShift node instances
     Type: Number
   OutputBucketName:
@@ -217,17 +276,57 @@ Parameters:
     AllowedValues: [ Enabled, Disabled ]
   HostedZoneID:
     Type: String
-  CertificateArn:
-    Type: String
+    #Default: "Z1ZVUHT3L33LTB"
   DomainName:
     Type: String
+    #Default: "oscarose-ogba.com"
   SubDomainPrefix:
+   # Default: 'openshift'
     Type: String
   HawkularMetrics:
     Default: Enabled
     Description: Enable Hawkular cluster metrics
     Type: String
     AllowedValues: [ Enabled, Disabled ]
+  GlusterFS:
+    Default: Disabled
+    Description: Enable GlusterFS storage cluster
+    Type: String
+    AllowedValues:
+      - Enabled
+      - Disabled
+  GlusterStorageSize:
+    Description: Size in GB of the available storage (will create 3x ebs volumes of this size)
+    Type: Number
+    Default: 1000
+  GlusterStorageType:
+    Default: io1
+    Description: EBS volume type to use for storage
+    Type: String
+    AllowedValues:
+      - io1
+      - gp2
+      - st1
+  GlusterInstanceType:
+    Default: i3.large
+    Type: String
+  NumberOfGluster:
+    Default: '1'
+    Description: This Deployment requires a minimum of 3 Gluster instances
+    Type: Number
+    AllowedValues:
+      - '1'
+  GlusterStorageIops:
+    Default: 3000
+    Description: EBS volume IOPS to allocate (only applicable if io1 has been selected for GlusterStorageType)
+    Type: Number
+  GlusterStorageEncrypted:
+    Default: False
+    Description: Enable EBS encryption for Gluster storage volumes
+    Type: String
+    AllowedValues:
+      - False
+      - True
   AutomationBroker:
     Default: Enabled
     Description: Enable the OpenShift Automation Service Broker
@@ -316,6 +415,13 @@ Resources:
         - CustomClusterName
         - !Ref ClusterName
         - !Sub '${AWS::StackName}-${AWS::Region}'
+        GlusterStorageEncrypted: !Ref GlusterStorageEncrypted
+        GlusterStorageIops: !Ref GlusterStorageIops
+        NumberOfGluster: !Ref NumberOfGluster
+        GlusterInstanceType: !Ref GlusterInstanceType
+        GlusterStorageType: !Ref GlusterStorageType
+        GlusterStorageSize: !Ref GlusterStorageSize
+        GlusterFS: !Ref GlusterFS
         AutomationBroker: !Ref AutomationBroker
         AmiId: !Ref AmiId
         ClusterConsole: !Ref ClusterConsole
