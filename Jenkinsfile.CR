@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        lable'master'
+        label'master'
     }
     parameters {
         choice(name: 'OpenshiftContainerPlatformVersion', choices: ['3.11', '4.0', '4.2', '4.3'], description: 'RedHat OpenShift version to deploy',)
