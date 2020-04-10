@@ -34,6 +34,7 @@
         ContainerAccessCIDR: "{{ ContainerAccessCIDR }}"
         DomainName: "{{ DomainName }}"
         HostedZoneID: "{{ HostedZoneID }}"
+        CertificateArn: "{{ CertificateArn }}"
         SubDomainPrefix: "{{ HostedZoneID }}"
         KeyPairName: "{{ KeyPairName }}"
         AmiId: "{{ AmiId }}"

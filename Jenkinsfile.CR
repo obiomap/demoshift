@@ -22,6 +22,7 @@ pipeline {
         string(name: 'ContainerAccessCIDR', defaultValue: '73.135.216.94/32', description: 'container access cidr ip range',)
         string(name: 'DomainName', defaultValue: 'oscarose-ogba.com', description: 'Route53 domain name',)
         string(name: 'HostedZoneID', defaultValue: 'Z1ZVUHT3L33LTB', description: 'Hosted Zone id',)
+        string(name: 'CertificateArn', defaultValue: '', description: 'ssl cert',)
         string(name: 'SubDomainPrefix', defaultValue: 'openshift', description: 'OpenShift sub level domain name',)
         string(name: 'KeyPairName', defaultValue: 'docker', description: 'OpenShift instance key pair name',)
         choice(name: 'AmiId', choices: ['ami-0916c408cb02e310b', ''], description: 'OpenShift instance Ami Id',)
@@ -57,7 +58,7 @@ pipeline {
                                 Environment=${aws_target_environment} aws_region=${aws_region} stack_name=${stack_name} state=${state} AZ_1=${AZ_1} AZ_2=${AZ_2} AZ_3=${AZ_3} \
                                 VPCCIDR=${VPCCIDR} PrivateSubnet1CIDR=${PrivateSubnet1CIDR} PrivateSubnet2CIDR=${PrivateSubnet2CIDR} PrivateSubnet3CIDR=${PrivateSubnet3CIDR} \
                                 PublicSubnet1CIDR=${PublicSubnet1CIDR} PublicSubnet2CIDR=${PublicSubnet2CIDR} PublicSubnet3CIDR=${PublicSubnet3CIDR} RemoteAccessCIDR=${RemoteAccessCIDR} \
-                                ContainerAccessCIDR=${ContainerAccessCIDR} DomainName=${DomainName} HostedZoneID=${HostedZoneID} SubDomainPrefix=${SubDomainPrefix} KeyPairName=${KeyPairName} \
+                                ContainerAccessCIDR=${ContainerAccessCIDR} DomainName=${DomainName} HostedZoneID=${HostedZoneID} CertificateArn=${CertificateArn} SubDomainPrefix=${SubDomainPrefix} KeyPairName=${KeyPairName} \
                                 AmiId=${AmiId} NumberOfMaster=${NumberOfMaster} NumberOfEtcd=${NumberOfEtcd} NumberOfNodes=${NumberOfNodes} MasterInstanceType=${MasterInstanceType} EtcdInstanceType=${EtcdInstanceType} \
                                 NodesInstanceType=${NodesInstanceType} OpenShiftAdminPassword=${OpenShiftAdminPassword} RedhatSubscriptionUserName=${RedhatSubscriptionUserName} RedhatSubscriptionPassword=${RedhatSubscriptionPassword} \
                                 RedhatSubscriptionPoolID=${RedhatSubscriptionPoolID}"
