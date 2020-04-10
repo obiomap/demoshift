@@ -59,7 +59,7 @@ pipeline {
                                 PublicSubnet1CIDR=${PublicSubnet1CIDR} PublicSubnet2CIDR=${PublicSubnet2CIDR} PublicSubnet3CIDR=${PublicSubnet3CIDR} RemoteAccessCIDR=${RemoteAccessCIDR}
                                 ContainerAccessCIDR=${ContainerAccessCIDR} DomainName=${DomainName} HostedZoneID=${HostedZoneID} SubDomainPrefix=${SubDomainPrefix} KeyPairName=${KeyPairName}
                                 AmiId=${AmiId} NumberOfMaster=${NumberOfMaster} NumberOfEtcd=${NumberOfEtcd} NumberOfNodes=${NumberOfNodes} MasterInstanceType=${MasterInstanceType} EtcdInstanceType=${EtcdInstanceType}
-                                NodesInstanceType=${NodesInstanceType} OpenShiftAdminPassword=${OpenShiftAdminPassword} RedhatSubscriptionUserName=${RedhatSubscriptionUserName} RedhatSubscriptionPassword=${RedhatSubscriptionPassword
+                                NodesInstanceType=${NodesInstanceType} OpenShiftAdminPassword=${OpenShiftAdminPassword} RedhatSubscriptionUserName=${RedhatSubscriptionUserName} RedhatSubscriptionPassword=${RedhatSubscriptionPassword}
                                 RedhatSubscriptionPoolID=${RedhatSubscriptionPoolID}"
                             aws s3 rm s3://openshift-ogbacft/OpenShiftCFT.yaml
                             aws s3 rb s3://openshift-ogbacft
