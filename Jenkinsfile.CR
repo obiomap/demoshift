@@ -53,7 +53,7 @@ pipeline {
                             aws s3 mb s3://openshift-ogbacft --region us-east-1
                             aws s3 cp $WORKSPACE/OpenShiftCFT.yaml s3://openshift-ogbacft
                             ansible-playbook $WORKSPACE/OpenShiftdelpoy.yaml --extra-vars \n\n\
-                                ansible_python_interpreter=/usr/bin/python OpenshiftContainerPlatformVersion=${OpenshiftContainerPlatformVersion} \n\n\
+                                "ansible_python_interpreter=/usr/bin/python OpenshiftContainerPlatformVersion=${OpenshiftContainerPlatformVersion} \n\n\
                                 Environment=${Environment} aws_region=${aws_region} stack_name=${stack_name} state=${state} AZ_1=${AZ_1} AZ_2=${AZ_2} AZ_3=${AZ_3} \n\n\
                                 VPCCIDR=${VPCCIDR} PrivateSubnet1CIDR=${PrivateSubnet1CIDR} PrivateSubnet2CIDR=${PrivateSubnet2CIDR} PrivateSubnet3CIDR=${PrivateSubnet3CIDR} \n\n\
                                 PublicSubnet1CIDR=${PublicSubnet1CIDR} PublicSubnet2CIDR=${PublicSubnet2CIDR} PublicSubnet3CIDR=${PublicSubnet3CIDR} RemoteAccessCIDR=${RemoteAccessCIDR} \n\n\
