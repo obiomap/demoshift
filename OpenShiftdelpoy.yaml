@@ -12,6 +12,7 @@
       state: "{{ state }}"
       region: "{{ aws_region }}"
       #disable_rollback: true
+      create_timeout: 180
       template_url: "https://openshift-ogbacft.s3.amazonaws.com/OpenShiftCFT.yaml"
       template_parameters:
         OpenshiftContainerPlatformVersion: "{{ OpenshiftContainerPlatformVersion }}"
