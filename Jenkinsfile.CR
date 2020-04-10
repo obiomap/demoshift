@@ -52,14 +52,14 @@ pipeline {
                             sh """
                             aws s3 mb s3://openshift-ogbacft --region us-east-1
                             aws s3 cp $WORKSPACE/OpenShiftCFT.yaml s3://openshift-ogbacft
-                            ansible-playbook $WORKSPACE/OpenShiftdelpoy.yaml \r
-                                --extra-vars "ansible_python_interpreter=/usr/bin/python OpenshiftContainerPlatformVersion=${OpenshiftContainerPlatformVersion} \r
-                                Environment=${Environment} aws_region=${aws_region} stack_name=${stack_name} state=${state} AZ_1=${AZ_1} AZ_2=${AZ_2} AZ_3=${AZ_3} \r
-                                VPCCIDR=${VPCCIDR} PrivateSubnet1CIDR=${PrivateSubnet1CIDR} PrivateSubnet2CIDR=${PrivateSubnet2CIDR} PrivateSubnet3CIDR=${PrivateSubnet3CIDR} \r
-                                PublicSubnet1CIDR=${PublicSubnet1CIDR} PublicSubnet2CIDR=${PublicSubnet2CIDR} PublicSubnet3CIDR=${PublicSubnet3CIDR} RemoteAccessCIDR=${RemoteAccessCIDR} \r
-                                ContainerAccessCIDR=${ContainerAccessCIDR} DomainName=${DomainName} HostedZoneID=${HostedZoneID} SubDomainPrefix=${SubDomainPrefix} KeyPairName=${KeyPairName} \r
-                                AmiId=${AmiId} NumberOfMaster=${NumberOfMaster} NumberOfEtcd=${NumberOfEtcd} NumberOfNodes=${NumberOfNodes} MasterInstanceType=${MasterInstanceType} EtcdInstanceType=${EtcdInstanceType} \r
-                                NodesInstanceType=${NodesInstanceType} OpenShiftAdminPassword=${OpenShiftAdminPassword} RedhatSubscriptionUserName=${RedhatSubscriptionUserName} RedhatSubscriptionPassword=${RedhatSubscriptionPassword} \r
+                            ansible-playbook $WORKSPACE/OpenShiftdelpoy.yaml \n
+                                --extra-vars "ansible_python_interpreter=/usr/bin/python OpenshiftContainerPlatformVersion=${OpenshiftContainerPlatformVersion} \n
+                                Environment=${Environment} aws_region=${aws_region} stack_name=${stack_name} state=${state} AZ_1=${AZ_1} AZ_2=${AZ_2} AZ_3=${AZ_3} \n
+                                VPCCIDR=${VPCCIDR} PrivateSubnet1CIDR=${PrivateSubnet1CIDR} PrivateSubnet2CIDR=${PrivateSubnet2CIDR} PrivateSubnet3CIDR=${PrivateSubnet3CIDR} \n
+                                PublicSubnet1CIDR=${PublicSubnet1CIDR} PublicSubnet2CIDR=${PublicSubnet2CIDR} PublicSubnet3CIDR=${PublicSubnet3CIDR} RemoteAccessCIDR=${RemoteAccessCIDR} \n
+                                ContainerAccessCIDR=${ContainerAccessCIDR} DomainName=${DomainName} HostedZoneID=${HostedZoneID} SubDomainPrefix=${SubDomainPrefix} KeyPairName=${KeyPairName} \n
+                                AmiId=${AmiId} NumberOfMaster=${NumberOfMaster} NumberOfEtcd=${NumberOfEtcd} NumberOfNodes=${NumberOfNodes} MasterInstanceType=${MasterInstanceType} EtcdInstanceType=${EtcdInstanceType} \n
+                                NodesInstanceType=${NodesInstanceType} OpenShiftAdminPassword=${OpenShiftAdminPassword} RedhatSubscriptionUserName=${RedhatSubscriptionUserName} RedhatSubscriptionPassword=${RedhatSubscriptionPassword} \n
                                 RedhatSubscriptionPoolID=${RedhatSubscriptionPoolID}"
                             aws s3 rm s3://openshift-ogbacft/OpenShiftCFT.yaml
                             aws s3 rb s3://openshift-ogbacft
