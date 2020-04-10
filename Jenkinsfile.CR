@@ -4,7 +4,7 @@ pipeline {
     }
     parameters {
         choice(name: 'OpenshiftContainerPlatformVersion', choices: ['3.11', '4.0', '4.2', '4.3'], description: 'RedHat OpenShift version to deploy',)
-        choice(name: 'Environment', choices: ['mcpvc-lab-coe-trex', 'Env-2', 'Env-3'], description: 'T-REX AWS target Environment',)
+        choice(name: 'aws_target_environment', choices: ['mcpvc-lab-coe-trex', 'Env-2', 'Env-3'], description: 'T-REX AWS target Environment',)
         choice(name: 'aws_region', choices: ['us-east-1', 'us-west-2', ''], description: 'AWS region to deploy OpenShift CFT',)
         string(name: 'stack_name', defaultValue: '', description: 'OpenShift CFT stack Name',)
         choice(name: 'state', choices: ['present', 'absent'], description: 'OpenShift CFT deploy/changeset-deploy and delete condition',)
@@ -31,9 +31,9 @@ pipeline {
         choice(name: 'MasterInstanceType',choices: ['m5.xlarge', 'm4.xlarge', ''], description: 'OpenShift master instance type',)
         choice(name: 'EtcdInstanceType', choices: ['m5.xlarge', 'm4.xlarge', ''], description: 'OpenShift etcd instance type',)
         choice(name: 'NodesInstanceType', choices: ['m5.xlarge', 'm4.xlarge', ''], description: 'OpenShift worker node instance type',)
-        string(name: 'OpenShiftAdminPassword', defaultValue: '', description: 'OpenShift admin UI password',)
+        password(name: 'OpenShiftAdminPassword', defaultValue: '', description: 'OpenShift admin UI password',)
         string(name: 'RedhatSubscriptionUserName', defaultValue: 'oscarose', description: 'RedHat OpenShift subscription username',)
-        string(name: 'RedhatSubscriptionPassword', defaultValue: '', description: 'RedHat OpenShift subscription password',)
+        password(name: 'RedhatSubscriptionPassword', defaultValue: '', description: 'RedHat OpenShift subscription password',)
         string(name: 'RedhatSubscriptionPoolID', defaultValue: '8a85f99a707807c30170833f7f5f2066', description: 'RedHat OpenShift subscription pool id',)
     }
     stages {
@@ -54,7 +54,7 @@ pipeline {
                             aws s3 cp $WORKSPACE/OpenShiftCFT.yaml s3://openshift-ogbacft
                             ansible-playbook $WORKSPACE/OpenShiftdelpoy.yaml --extra-vars \
                                 "ansible_python_interpreter=/usr/bin/python OpenshiftContainerPlatformVersion=${OpenshiftContainerPlatformVersion} \
-                                Environment=${Environment} aws_region=${aws_region} stack_name=${stack_name} state=${state} AZ_1=${AZ_1} AZ_2=${AZ_2} AZ_3=${AZ_3} \
+                                Environment=${aws_target_environment} aws_region=${aws_region} stack_name=${stack_name} state=${state} AZ_1=${AZ_1} AZ_2=${AZ_2} AZ_3=${AZ_3} \
                                 VPCCIDR=${VPCCIDR} PrivateSubnet1CIDR=${PrivateSubnet1CIDR} PrivateSubnet2CIDR=${PrivateSubnet2CIDR} PrivateSubnet3CIDR=${PrivateSubnet3CIDR} \
                                 PublicSubnet1CIDR=${PublicSubnet1CIDR} PublicSubnet2CIDR=${PublicSubnet2CIDR} PublicSubnet3CIDR=${PublicSubnet3CIDR} RemoteAccessCIDR=${RemoteAccessCIDR} \
                                 ContainerAccessCIDR=${ContainerAccessCIDR} DomainName=${DomainName} HostedZoneID=${HostedZoneID} SubDomainPrefix=${SubDomainPrefix} KeyPairName=${KeyPairName} \
