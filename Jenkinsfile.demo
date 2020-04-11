@@ -7,6 +7,7 @@ pipeline {
         choice(name: 'aws_region', choices: ['us-east-1', 'us-west-2', ''], description: 'AWS region to deploy OpenShift CFT',)
         choice(name: 'stack_state', choices: ['create_stack', 'update_stack', 'delete_stack'], description: 'OpenShift clutser stack state',)
         choice(name: 'slack_notify', choices: ['create_stack', 'update_stack', 'delete_stack'], description: 'OpenShift clutser stack state',)
+        choice(name: 'stack_status', choices: ['CREATE_IN_PROGRESS', 'UPDATE_IN_PROGRESS', 'DELETE_IN_PROGRESS'], description: 'OpenShift cluster create,update or delete status',)
     }
     stages {
         stage('clone down openshift repo') {
@@ -26,7 +27,7 @@ pipeline {
                       aws s3 mb s3://openshift-ogbacft --region us-east-1
                       aws s3 cp $WORKSPACE/OpenShiftCFT.yaml s3://openshift-ogbacft
                       aws cloudformation create-stack --stack-name ${stack_name} --template-url https://openshift-ogbacft.s3.amazonaws.com/OpenShiftCFT.yaml --parameters file://OpenShiftParams.json --capabilities CAPABILITY_NAMED_IAM
-                      chmod a+x $WORKSPACE/cft_stack_status.sh && $WORKSPACE/cft_stack_status.sh ${aws_region} ${stack_name}
+                      chmod a+x $WORKSPACE/cft_stack_status.sh && $WORKSPACE/cft_stack_status.sh ${aws_region} ${stack_name} ${stack_status} && aws cloudformation describe-stacks --stack-name ${stack_name}
                       aws s3 rm s3://openshift-ogbacft/OpenShiftCFT.yaml
                       aws s3 rb s3://openshift-ogbacft
                       """
@@ -43,7 +44,7 @@ pipeline {
                       aws s3 mb s3://openshift-ogbacft --region us-east-1
                       aws s3 cp $WORKSPACE/OpenShiftCFT.yaml s3://openshift-ogbacft
                       aws cloudformation update-stack --stack-name ${stack_name} --template-url https://openshift-ogbacft.s3.amazonaws.com/OpenShiftCFT.yaml --parameters file://OpenShiftParams.json --capabilities CAPABILITY_NAMED_IAM
-                      chmod a+x $WORKSPACE/cft_stack_status.sh && $WORKSPACE/cft_stack_status.sh ${aws_region} ${stack_name} && aws cloudformation describe-stacks --stack-name ${stack_name}
+                      chmod a+x $WORKSPACE/cft_stack_status.sh && $WORKSPACE/cft_stack_status.sh ${aws_region} ${stack_name} ${stack_status} && aws cloudformation describe-stacks --stack-name ${stack_name}
                       aws s3 rm s3://openshift-ogbacft/OpenShiftCFT.yaml
                       aws s3 rb s3://openshift-ogbacft
                       """
@@ -58,6 +59,8 @@ pipeline {
                  script {
                       sh """
                       aws cloudformation delete-stack --stack-name ${stack_name}
+                      chmod a+x $WORKSPACE/cft_stack_status.sh && $WORKSPACE/cft_stack_status.sh ${aws_region} ${stack_name} ${stack_status}
+                      echo "${stack_name} stack deletion is complete"
                       """
                  }
             }
