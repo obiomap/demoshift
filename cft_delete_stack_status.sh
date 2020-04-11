@@ -1,3 +1,7 @@
+#!/bin/bash
+
+set -x
+
 if [[ $? -eq 0 ]];
    then
    echo "Openshift cluster stack deletion is in progress"
