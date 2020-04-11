@@ -1,0 +1,36 @@
+pipeline {
+    agent {
+        label'master'
+    }
+    parameters {
+        string(name: 'stack_name', defaultValue: '', description: 'OpenShift CFT stack Name',)
+        choice(name: 'aws_region', choices: ['us-east-1', 'us-west-2', ''], description: 'AWS region to deploy OpenShift CFT',)
+        choice(name: 'stack_state', choices: ['create_stack', 'update_stack', 'delete_stack'], description: 'OpenShift clutser stack state',)
+    }
+    stages {
+        stage('clone down openshift repo') {
+            steps {                
+                git branch: 'master',
+                    credentialsId: 'github_jenkins',      
+                        url: 'https://github.com/oscarose/demoshift.git'
+            }
+        }
+        stage('deploy openshift cluster to target aws region') {
+            when {
+                 expression { params.stack_state == 'create_stack' }
+            }
+            steps {
+                 script {
+                      sh """
+                      aws s3 mb s3://openshift-ogbacft --region us-east-1
+                      aws s3 cp $WORKSPACE/OpenShiftCFT.yaml s3://openshift-ogbacft
+                      aws cloudformation create-stack --stack-name ${stack_name} --template-url https://openshift-ogbacft.s3.amazonaws.com/OpenShiftCFT.yaml --parameters file://OpenShiftParams.json --capabilities CAPABILITY_NAMED_IAM
+                      $WORKSPACE/cft_stack_status.sh ${aws_region} ${stack_name}
+                      aws s3 rm s3://openshift-ogbacft/OpenShiftCFT.yaml
+                      aws s3 rb s3://openshift-ogbacft
+                      """
+                 }
+            }
+        }
+    }
+}
