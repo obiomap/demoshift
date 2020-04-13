@@ -49,7 +49,7 @@
   },
   {
     "ParameterKey": "CertificateArn",
-    "ParameterValue": "arn:aws:acm:us-east-1:187212085277:certificate/f6f82b33-4b58-47fb-9f4d-8984c93aae0c"
+    "ParameterValue": "arn:aws:acm:us-east-1:187212085277:certificate/e8aaa901-0739-4a6d-a205-96cbf7f2bc3b"
   },
   {
     "ParameterKey": "SubDomainPrefix",
