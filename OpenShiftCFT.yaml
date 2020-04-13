@@ -170,7 +170,7 @@ Parameters:
     Description: The CIDR IP range that is permitted to access the instances, use trusted IP range.
     Type: String
   OpenShiftAdminPassword:
-    Type: String
+    Type: 'AWS::SSM::Parameter::Value<String>'
     MinLength: '8'
     NoEcho: 'true'
   RedhatSubscriptionUserName:
@@ -178,7 +178,7 @@ Parameters:
     Type: String
   RedhatSubscriptionPassword:
     NoEcho: 'true'
-    Type: String
+    Type: 'AWS::SSM::Parameter::Value<String>'
   RedhatSubscriptionPoolID:
     Description: Enter Redhat RHN PoolID
     Type: String
