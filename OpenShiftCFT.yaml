@@ -217,8 +217,8 @@ Parameters:
     AllowedValues: [ Enabled, Disabled ]
   HostedZoneID:
     Type: String
-  CertificateArn:
-    Type: String
+ # CertificateArn:
+  #  Type: String
   DomainName:
     Type: String
   SubDomainPrefix:
