@@ -215,14 +215,14 @@ Parameters:
     Description: Enable the AWS Service Broker
     Type: String
     AllowedValues: [ Enabled, Disabled ]
-  HostedZoneID:
-    Type: String
+#  HostedZoneID:
+ #   Type: String
  # CertificateArn:
   #  Type: String
-  DomainName:
-    Type: String
-  SubDomainPrefix:
-    Type: String
+ # DomainName:
+  #  Type: String
+ # SubDomainPrefix:
+  #  Type: String
   HawkularMetrics:
     Default: Enabled
     Description: Enable Hawkular cluster metrics
