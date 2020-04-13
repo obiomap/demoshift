@@ -40,10 +40,6 @@
     "ParameterValue": "73.135.216.94/32"
   },
   {
-    "ParameterKey": "SubDomainPrefix",
-    "ParameterValue": "openshift"
-  },
-  {
     "ParameterKey": "KeyPairName",
     "ParameterValue": "docker"
   },
