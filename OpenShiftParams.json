@@ -47,10 +47,10 @@
     "ParameterKey": "HostedZoneID",
     "ParameterValue": "Z1ZVUHT3L33LTB"
   },
-  {
-    "ParameterKey": "CertificateArn",
-    "ParameterValue": "arn:aws:acm:us-east-1:187212085277:certificate/e8aaa901-0739-4a6d-a205-96cbf7f2bc3b"
-  },
+ # {
+  #  "ParameterKey": "CertificateArn",
+   # "ParameterValue": "arn:aws:acm:us-east-1:187212085277:certificate/e8aaa901-0739-4a6d-a205-96cbf7f2bc3b"
+ # },
   {
     "ParameterKey": "SubDomainPrefix",
     "ParameterValue": "openshift"
