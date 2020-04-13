@@ -40,6 +40,22 @@
     "ParameterValue": "73.135.216.94/32"
   },
   {
+    "ParameterKey": "DomainName",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "HostedZoneID",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "CertificateArn",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "SubDomainPrefix",
+    "ParameterValue": ""
+  },
+  {
     "ParameterKey": "KeyPairName",
     "ParameterValue": "docker"
   },
